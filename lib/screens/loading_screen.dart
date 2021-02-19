@@ -1,7 +1,7 @@
-import 'package:clima/screens/location_screen.dart';
+import 'package:clima/screens/weatherNow_screen.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
-import 'location_screen.dart';
+import 'weatherNow_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../services/weather.dart';
 

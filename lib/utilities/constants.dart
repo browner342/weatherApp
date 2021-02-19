@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 
+
 const kTempTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
+  fontFamily: 'Hind Siliguri',
   fontSize: 100.0,
 );
 
-const kMessageTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
-  fontSize: 60.0,
+const kCityNameTextStyle = TextStyle(
+  fontFamily: 'Hind Siliguri',
+  fontSize: 38.0,
+);
+
+const kWeatherDescp = TextStyle(
+  fontFamily: 'Hind Siliguri',
+  fontSize: 25.0,
 );
 
 const kButtonTextStyle = TextStyle(
   fontSize: 30.0,
-  fontFamily: 'Spartan MB',
+  fontFamily: 'Hind Siliguri',
 );
 
 const kConditionTextStyle = TextStyle(
