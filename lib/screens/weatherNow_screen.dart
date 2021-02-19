@@ -8,9 +8,10 @@ import '../services/weather.dart';
 import '../services/dataKeeper.dart';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({this.locationData});
+  LocationScreen({this.locationData,});
 
   final locationData;
+
 
   @override
   _LocationScreenState createState() => _LocationScreenState();
@@ -22,7 +23,7 @@ class _LocationScreenState extends State<LocationScreen> {
   DataKeeper dataKeeper = DataKeeper();
   WeatherModel weatherModel = WeatherModel();
 
-  void updateUI(dynamic weatherData){
+  void updateUI(dynamic weatherData,){
 
     if(weatherData == null){
       dataKeeper.temperature = 0;
@@ -51,11 +52,13 @@ class _LocationScreenState extends State<LocationScreen> {
     dataKeeper.weatherIcon = weatherModel.icon;
     dataKeeper.weatherBackGroundColor = weatherModel.color;
     dataKeeper.weatherDescp = weatherModel.descp;
+
+
   }
 
   @override
   void initState() {
-    updateUI(widget.locationData);
+    updateUI(widget.locationData,);
     super.initState();
   }
 
@@ -108,7 +111,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     onPressed: () async {
                       weatherData = await weatherModel.getLocationWeather();
                       setState(() {
-                        updateUI(weatherData);
+                        updateUI(weatherData,);
                       });
                     },
                     child: Icon(
@@ -127,7 +130,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
                         if(weatherData != null){
                           setState(() {
-                            updateUI(weatherData);
+                            updateUI(weatherData,);
                           });
                         }
                       }
@@ -139,7 +142,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather hourly
                     onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return WeatherHourlyScreen(dataKeeper: dataKeeper);
                       }));
                     },
@@ -152,7 +155,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     onPressed: () async {
                       weatherData = await weatherModel.getLocationWeather();
                       setState(() {
-                        updateUI(weatherData);
+                        //updateUI(weatherData);
                       });
                     },
                     child: Icon(

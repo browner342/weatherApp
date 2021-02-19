@@ -1,3 +1,4 @@
+import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class DataKeeper {
@@ -10,9 +11,9 @@ class DataKeeper {
   double lon;
   double lat;
 
-  List<int> tempHourly = new List(5); //TODO: change from hardcode
-  List<int> condHourly = new List(5);
-  List<String> iconHourly = new List(5);
-  List<Color> colorHourly = new List(5);
-  List<int> hourHourly = new List(5);
+  List<int> tempHourly = new List(kCardAmount);
+  List<int> condHourly = new List(kCardAmount);
+  List<String> iconHourly = new List(kCardAmount);
+  List<Color> colorHourly = new List(kCardAmount);
+  List<int> hourHourly = new List(kCardAmount);
 }

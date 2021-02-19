@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+const kCardAmount = 7;
 const kTempTextStyle = TextStyle(
   fontFamily: 'Hind Siliguri',
   fontSize: 88.0,
