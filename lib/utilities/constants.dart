@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 const kTempTextStyle = TextStyle(
   fontFamily: 'Hind Siliguri',
-  fontSize: 100.0,
+  fontSize: 88.0,
 );
 
 const kCityNameTextStyle = TextStyle(

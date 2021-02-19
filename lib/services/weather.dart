@@ -28,6 +28,14 @@ class WeatherModel {
     return weatherData;
   }
 
+  Future <dynamic> getHourlyWeather(double lat, double lon) async {
+
+    NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$kApiKey&units=metric');
+    var weatherData = await networkHelper.getData();
+
+    return weatherData;
+  }
+
   void getWeatherValues(int condition) { //ThunderStorm
     if (condition < 300) {
       icon =  '🌩';

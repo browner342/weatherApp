@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
-import '../services/weather.dart';
 import 'city_screen.dart';
+import 'weatherHourly_screen.dart';
+
+import '../services/weather.dart';
+import '../services/dataKeeper.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationData});
@@ -14,47 +17,45 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-
-  int temperature;
-  int condition;
-  String cityName;
   var weatherData;
-  String weatherIcon;
-  Color weatherBackGroundColor;
-  String weatherDescp;
 
-  
+  DataKeeper dataKeeper = DataKeeper();
   WeatherModel weatherModel = WeatherModel();
 
   void updateUI(dynamic weatherData){
+
     if(weatherData == null){
-      temperature = 0;
-      weatherIcon = 'Error';
-      cityName = '';
-      condition = 100;
-      weatherBackGroundColor = Colors.white;
-      weatherDescp ='';
+      dataKeeper.temperature = 0;
+      dataKeeper.weatherIcon = 'Error';
+      dataKeeper.cityName = '';
+      dataKeeper.condition = 100;
+      dataKeeper.weatherBackGroundColor = Colors.white;
+      dataKeeper.weatherDescp ='';
+      dataKeeper.lon = 0;
+      dataKeeper.lat = 0;
       return;
     }
     if ( weatherData['main']['temp'].runtimeType == double){
       double temp = weatherData['main']['temp'];
-      temperature = temp.toInt();
+      dataKeeper.temperature = temp.toInt();
     }else{
-      temperature = weatherData['main']['temp'];
+      dataKeeper.temperature = weatherData['main']['temp'];
     }
 
-    condition = weatherData['weather'][0]['id'];
-    cityName = weatherData['name'];
-    weatherModel.getWeatherValues(condition);
-    weatherIcon = weatherModel.icon;
-    weatherBackGroundColor = weatherModel.color;
-    weatherDescp = weatherModel.descp;
+    dataKeeper.condition = weatherData['weather'][0]['id'];
+    dataKeeper.cityName = weatherData['name'];
+    dataKeeper.lon = weatherData['coord']['lon'];
+    dataKeeper.lat = weatherData['coord']['lat'];
+
+    weatherModel.getWeatherValues(dataKeeper.condition);
+    dataKeeper.weatherIcon = weatherModel.icon;
+    dataKeeper.weatherBackGroundColor = weatherModel.color;
+    dataKeeper.weatherDescp = weatherModel.descp;
   }
 
   @override
   void initState() {
     updateUI(widget.locationData);
-    print(condition);
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: weatherBackGroundColor,
+        color: dataKeeper.weatherBackGroundColor,
         constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
@@ -76,7 +77,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     Padding(
                       padding: EdgeInsets.only(right: 15.0),
                       child: Text(
-                        "$cityName",
+                        "${dataKeeper.cityName}",
                         textAlign: TextAlign.center,
                         style: kCityNameTextStyle,
                       ),
@@ -84,26 +85,18 @@ class _LocationScreenState extends State<LocationScreen> {
                     Padding(
                       padding: EdgeInsets.only(right: 15.0),
                       child: Text(
-                        "$weatherDescp",
+                        "${dataKeeper.weatherDescp}",
                         textAlign: TextAlign.center,
                         style: kWeatherDescp,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '$temperature°',
-                            style: kTempTextStyle,
-                          ),
-                          Text(
-                            '$weatherIcon',
-                            style: kConditionTextStyle,
-                          ),
-                        ],
-                      ),
+                    Text(
+                      '${dataKeeper.weatherIcon}',
+                      style: kConditionTextStyle,
+                    ),
+                    Text(
+                      '${dataKeeper.temperature}',
+                      style: kTempTextStyle,
                     ),
                   ],
                 ),
@@ -111,10 +104,9 @@ class _LocationScreenState extends State<LocationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FlatButton(
+                  FlatButton( // My location now
                     onPressed: () async {
                       weatherData = await weatherModel.getLocationWeather();
-                      print(weatherData);
                       setState(() {
                         updateUI(weatherData);
                       });
@@ -124,7 +116,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       size: 50.0,
                     ),
                   ),
-                  FlatButton(
+                  FlatButton( //Chosen city
                     onPressed: () async {
                       var typedName = await Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return CityScreen();
@@ -142,6 +134,29 @@ class _LocationScreenState extends State<LocationScreen> {
                     },
                     child: Icon(
                       Icons.location_city,
+                      size: 50.0,
+                    ),
+                  ),
+                  FlatButton( // weather hourly
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return WeatherHourlyScreen(dataKeeper: dataKeeper);
+                      }));
+                    },
+                    child: Icon(
+                      Icons.access_time,
+                      size: 50.0,
+                    ),
+                  ),
+                  FlatButton( // weather for week
+                    onPressed: () async {
+                      weatherData = await weatherModel.getLocationWeather();
+                      setState(() {
+                        updateUI(weatherData);
+                      });
+                    },
+                    child: Icon(
+                      Icons.calendar_today,
                       size: 50.0,
                     ),
                   ),
