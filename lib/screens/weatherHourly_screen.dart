@@ -73,7 +73,7 @@ class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
                           temperature: dataKeeper.tempHourly[i],
                           backgrounColor: dataKeeper.colorHourly[i],
                           icon: dataKeeper.iconHourly[i],
-                          hour: dataKeeper.hourHourly[i],
+                          date: dataKeeper.dateHourly[i],
                         ),
                       );
                     },

@@ -1,14 +1,15 @@
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HourCard extends StatelessWidget {
-  HourCard({@required this.temperature, @required this.backgrounColor, @required this.icon, @required this.hour});
+  HourCard({@required this.temperature, @required this.backgrounColor, @required this.icon, @required this.date});
 
   final int temperature;
   final Color backgrounColor;
   final String icon;
-  final int hour;
+  final DateTime date;
 
 
   @override
@@ -21,20 +22,44 @@ class HourCard extends StatelessWidget {
         
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            '$hour:00',
-            style: kWeatherDescp,
+          Expanded(
+            flex: 6,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  '${DateFormat('d,MMM').format(date)}',
+                  style: kWeatherDescp,
+                ),
+                Text(
+                  '${DateFormat('EEE').format(date)}',
+                  style: kWeekDay,
+                ),
+                Text(
+                  '${date.hour}:00',
+                  style: kWeatherDescp,
+                ),
+              ],
+            ),
           ),
-          Text(
-            '$temperature°',
-            style: kWeatherDescp,
-          ),
-          Text(
-            '$icon',
-            style: kWeatherDescp,
-          ),
+          Expanded(
+            flex: 3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '$temperature°',
+                    style: kWeatherDescp,
+                  ),
+                  Text(
+                    '$icon',
+                    style: kWeatherDescp,
+                  ),
+                ],
+              )
+          )
         ],
       ),
     );

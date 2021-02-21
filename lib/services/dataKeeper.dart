@@ -16,7 +16,7 @@ class DataKeeper {
   List<int> condHourly = new List(kCardHourlyAmount);
   List<String> iconHourly = new List(kCardHourlyAmount);
   List<Color> colorHourly = new List(kCardHourlyAmount);
-  List<int> hourHourly = new List(kCardHourlyAmount);
+  List<DateTime> dateHourly = new List(kCardHourlyAmount);
 
   List<int> tempMaxDaily = new List(kCardWeeklyAmount);
   List<int> tempMinDaily = new List(kCardWeeklyAmount);
@@ -71,7 +71,7 @@ class DataKeeper {
         this.iconHourly[i] = weatherModel.icon;
 
         Duration duration = new Duration(hours: i);
-        this.hourHourly[i] = DateTime.now().add(duration).hour;
+        this.dateHourly[i] = DateTime.now().add(duration);
       }
     return weatherData;
     }
