@@ -19,7 +19,7 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
   WeatherModel weatherModel = WeatherModel();
   DataKeeper dataKeeper = DataKeeper();
 
-  List<Widget> dailyCards(){
+  List<Widget> dailyCards() {
     List<Widget> cards = [];
 
     for(var i = 0; i < kCardAmount; i++){
@@ -41,32 +41,8 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
 
   void updateUI() async {
     dataKeeper = widget.dataKeeper;
-    var weatherData = await weatherModel.getWeeklyWeather(dataKeeper.lat, dataKeeper.lon);
-
-    setState(() {
-        for(var i = 0; i < kCardAmount; i++){
-          if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
-            double temp = weatherData['daily'][i]['temp']['max'];
-            dataKeeper.tempMaxDaily[i] = temp.toInt();
-
-            temp = weatherData['daily'][i]['temp']['min'];
-            dataKeeper.tempMinDaily[i] = temp.toInt();
-          } else {
-            dataKeeper.tempMaxDaily[i] = weatherData['daily'][i]['temp']['max'];
-            dataKeeper.tempMinDaily[i] = weatherData['daily'][i]['temp']['min'];
-          }
-
-          dataKeeper.condDaily[i] = weatherData['daily'][i]['weather'][0]['id'];
-
-          weatherModel.getWeatherValues(dataKeeper.condDaily[i]);
-          dataKeeper.colorDaily[i] = weatherModel.color;
-          dataKeeper.iconDaily[i] = weatherModel.icon;
-
-          Duration duration = Duration(days: i);
-          dataKeeper.dateDaily[i] = DateTime.now().add(duration);
-        }
-      }
-    );
+    await dataKeeper.getWeeklyData();
+    setState(() {});
   }
 
   @override

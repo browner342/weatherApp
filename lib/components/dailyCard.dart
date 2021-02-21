@@ -41,7 +41,7 @@ class DailyCard extends StatelessWidget {
             ],
           ),
           Text(
-            '$temperatureMax° - $temperatureMin°',
+            '$temperatureMax° / $temperatureMin°',
             style: kWeatherDescp,
           ),
           Text(

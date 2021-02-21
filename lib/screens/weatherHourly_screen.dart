@@ -46,32 +46,8 @@ class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
 
   void updateUI() async {
     dataKeeper = widget.dataKeeper;
-    var weatherData = await weatherModel.getHourlyWeather(dataKeeper.lat, dataKeeper.lon);
-    setState(() {
-      if(weatherData == null){
-        //TODO
-      }else{
-        for(var i = 0; i < kCardAmount; i++){
-          if(weatherData['hourly'][i]['temp'].runtimeType == double){
-            double temp = weatherData['hourly'][i]['temp'];
-            dataKeeper.tempHourly[i] = temp.toInt();
-          } else {
-            dataKeeper.tempHourly[i] = weatherData['hourly'][i]['temp'];
-          }
-
-          dataKeeper.condHourly[i] = weatherData['hourly'][i]['weather'][0]['id'];
-
-          weatherModel.getWeatherValues(dataKeeper.condHourly[i]);
-          dataKeeper.colorHourly[i] = weatherModel.color;
-          dataKeeper.iconHourly[i] = weatherModel.icon;
-
-          Duration duration = new Duration(hours: i);
-          dataKeeper.hourHourly[i] = DateTime.now().add(duration).hour;
-        }
-      }
-    });
-
-
+    await dataKeeper.getHourlyData();
+    setState(() {});
   }
 
 

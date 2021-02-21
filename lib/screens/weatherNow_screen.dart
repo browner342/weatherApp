@@ -20,6 +20,7 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   var weatherData;
+  bool isConntected;
 
   DataKeeper dataKeeper = DataKeeper();
   WeatherModel weatherModel = WeatherModel();
@@ -27,6 +28,8 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateUI(dynamic weatherData,){
 
     if(weatherData == null){
+      isConntected = false;
+
       dataKeeper.temperature = 0;
       dataKeeper.weatherIcon = '';
       dataKeeper.cityName = 'No Internet Connection';
@@ -37,6 +40,8 @@ class _LocationScreenState extends State<LocationScreen> {
       dataKeeper.lat = 0;
       return;
     }
+    isConntected = true;
+
     if ( weatherData['main']['temp'].runtimeType == double){
       double temp = weatherData['main']['temp'];
       dataKeeper.temperature = temp.toInt();
@@ -143,7 +148,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather hourly
                     onPressed: () async {
-                      if(weatherData != null){
+                      if(isConntected){
                         await Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return WeatherHourlyScreen(dataKeeper: dataKeeper);
                         }));
@@ -159,7 +164,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather for week
                     onPressed: () async {
-                      if(weatherData != null) {
+                      if(isConntected) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return WeatherWeeklyScreen(dataKeeper: dataKeeper);
                         }));
