@@ -1,3 +1,4 @@
+import 'package:clima/screens/weatherWeekly.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
@@ -154,9 +155,9 @@ class _LocationScreenState extends State<LocationScreen> {
                   FlatButton( // weather for week
                     onPressed: () async {
                       weatherData = await weatherModel.getLocationWeather();
-                      setState(() {
-                        //updateUI(weatherData);
-                      });
+                      await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return WeatherWeeklyScreen(dataKeeper: dataKeeper);
+                      }));
                     },
                     child: Icon(
                       Icons.calendar_today,

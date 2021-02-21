@@ -16,4 +16,11 @@ class DataKeeper {
   List<String> iconHourly = new List(kCardAmount);
   List<Color> colorHourly = new List(kCardAmount);
   List<int> hourHourly = new List(kCardAmount);
+
+  List<int> tempDailyMax = new List(kCardAmount);
+  List<int> tempDailyMin = new List(kCardAmount);
+  List<int> condDaily = new List(kCardAmount);
+  List<String> iconDaily = new List(kCardAmount);
+  List<Color> colorDaily = new List(kCardAmount);
+
 }
