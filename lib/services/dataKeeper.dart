@@ -8,7 +8,7 @@ class DataKeeper {
   String weatherIcon;
   Color weatherBackGroundColor;
   String weatherDescp;
-  double lon;
+  double lon ;
   double lat;
 
   List<int> tempHourly = new List(kCardAmount);
@@ -17,10 +17,10 @@ class DataKeeper {
   List<Color> colorHourly = new List(kCardAmount);
   List<int> hourHourly = new List(kCardAmount);
 
-  List<int> tempDailyMax = new List(kCardAmount);
-  List<int> tempDailyMin = new List(kCardAmount);
+  List<int> tempMaxDaily = new List(kCardAmount);
+  List<int> tempMinDaily = new List(kCardAmount);
   List<int> condDaily = new List(kCardAmount);
   List<String> iconDaily = new List(kCardAmount);
   List<Color> colorDaily = new List(kCardAmount);
-
+  List<DateTime> dateDaily = new List(kCardAmount);
 }

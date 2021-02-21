@@ -16,6 +16,11 @@ const kWeatherDescp = TextStyle(
   fontSize: 25.0,
 );
 
+const kWeekDay = TextStyle(
+  fontFamily: 'Hind Siliguri',
+  fontSize: 18.0,
+);
+
 const kButtonTextStyle = TextStyle(
   fontSize: 30.0,
   fontFamily: 'Hind Siliguri',
@@ -43,3 +48,5 @@ const kTextFieldDecoration = InputDecoration(
     borderSide: BorderSide.none,
   ),
 );
+
+const kAlertNoConnection = 'No internet connection or location switched off';

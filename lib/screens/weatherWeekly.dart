@@ -19,16 +19,17 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
   WeatherModel weatherModel = WeatherModel();
   DataKeeper dataKeeper = DataKeeper();
 
-  List<Widget> hourlyCards(){
+  List<Widget> dailyCards(){
     List<Widget> cards = [];
 
     for(var i = 0; i < kCardAmount; i++){
       var item = Expanded(
         child: DailyCard(
-          temperatureMax: dataKeeper.tempDailyMax[i],
-          temperatureMin: dataKeeper.tempDailyMin[i],
+          temperatureMax: dataKeeper.tempMaxDaily[i],
+          temperatureMin: dataKeeper.tempMinDaily[i],
           backgroundColor: dataKeeper.colorDaily[i],
           icon: dataKeeper.iconDaily[i],
+          date: dataKeeper.dateDaily[i],
         ),
       );
       cards.add(item);
@@ -38,29 +39,21 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
   }
 
 
-  @override
-  void initState() {
-    updateUI();
-    super.initState();
-  }
-
   void updateUI() async {
     dataKeeper = widget.dataKeeper;
     var weatherData = await weatherModel.getWeeklyWeather(dataKeeper.lat, dataKeeper.lon);
+
     setState(() {
-      if(weatherData == null){
-        //TODO
-      }else{
         for(var i = 0; i < kCardAmount; i++){
           if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
             double temp = weatherData['daily'][i]['temp']['max'];
-            dataKeeper.tempDailyMax[i] = temp.toInt();
+            dataKeeper.tempMaxDaily[i] = temp.toInt();
 
             temp = weatherData['daily'][i]['temp']['min'];
-            dataKeeper.tempDailyMin[i] = temp.toInt();
+            dataKeeper.tempMinDaily[i] = temp.toInt();
           } else {
-            dataKeeper.tempDailyMax[i] = weatherData['daily'][i]['temp']['max'];
-            dataKeeper.tempDailyMin[i] = weatherData['daily'][i]['temp']['min'];
+            dataKeeper.tempMaxDaily[i] = weatherData['daily'][i]['temp']['max'];
+            dataKeeper.tempMinDaily[i] = weatherData['daily'][i]['temp']['min'];
           }
 
           dataKeeper.condDaily[i] = weatherData['daily'][i]['weather'][0]['id'];
@@ -69,14 +62,18 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
           dataKeeper.colorDaily[i] = weatherModel.color;
           dataKeeper.iconDaily[i] = weatherModel.icon;
 
+          Duration duration = Duration(days: i);
+          dataKeeper.dateDaily[i] = DateTime.now().add(duration);
         }
       }
-    });
-
-
+    );
   }
 
-
+  @override
+  void initState() {
+    updateUI();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +103,7 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
                   ),
                   Expanded(
                     child: Column(
-                      children: hourlyCards(),
+                      children: dailyCards(),
                     ),
                   ),
                 ]

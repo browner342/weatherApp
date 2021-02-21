@@ -64,7 +64,9 @@ class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
           weatherModel.getWeatherValues(dataKeeper.condHourly[i]);
           dataKeeper.colorHourly[i] = weatherModel.color;
           dataKeeper.iconHourly[i] = weatherModel.icon;
-          dataKeeper.hourHourly[i] = DateTime.now().hour + i;
+
+          Duration duration = new Duration(hours: i);
+          dataKeeper.hourHourly[i] = DateTime.now().add(duration).hour;
         }
       }
     });

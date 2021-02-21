@@ -1,18 +1,18 @@
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../services/dataKeeper.dart';
 
 class DailyCard extends StatelessWidget {
-  DailyCard({@required this.temperatureMax, @required this.temperatureMin, @required this.backgroundColor, @required this.icon, @required this.hour});
+  DailyCard({@required this.temperatureMax, @required this.temperatureMin, @required this.backgroundColor, @required this.icon, @required this.date});
 
   int temperatureMax;
   int temperatureMin;
   Color backgroundColor;
   String icon;
-  int hour;
-
+  DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,19 @@ class DailyCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            '$hour:00',
-            style: kWeatherDescp,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${DateFormat('d MMM').format(date)}',
+                style: kWeatherDescp,
+              ),
+
+              Text(
+                '${DateFormat('EEEE').format(date)}',
+                style: kWeekDay,
+              ),
+            ],
           ),
           Text(
             '$temperatureMax° - $temperatureMin°',

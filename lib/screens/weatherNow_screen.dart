@@ -28,10 +28,10 @@ class _LocationScreenState extends State<LocationScreen> {
 
     if(weatherData == null){
       dataKeeper.temperature = 0;
-      dataKeeper.weatherIcon = 'Error';
-      dataKeeper.cityName = '';
+      dataKeeper.weatherIcon = '';
+      dataKeeper.cityName = 'No Internet Connection';
       dataKeeper.condition = 100;
-      dataKeeper.weatherBackGroundColor = Colors.white;
+      dataKeeper.weatherBackGroundColor = Colors.black;
       dataKeeper.weatherDescp ='';
       dataKeeper.lon = 0;
       dataKeeper.lat = 0;
@@ -143,9 +143,14 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather hourly
                     onPressed: () async {
-                      await Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return WeatherHourlyScreen(dataKeeper: dataKeeper);
-                      }));
+                      if(weatherData != null){
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return WeatherHourlyScreen(dataKeeper: dataKeeper);
+                        }));
+                      } else {
+                        //TODO:alert no internet connection
+                        print('no internet connection');
+                      }
                     },
                     child: Icon(
                       Icons.access_time,
@@ -154,10 +159,15 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather for week
                     onPressed: () async {
-                      weatherData = await weatherModel.getLocationWeather();
-                      await Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return WeatherWeeklyScreen(dataKeeper: dataKeeper);
-                      }));
+                      if(weatherData != null) {
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return WeatherWeeklyScreen(dataKeeper: dataKeeper);
+                        }));
+                      }else {
+                        //TODO:alert no internet connection
+                        print('no internet connection');
+                      }
+
                     },
                     child: Icon(
                       Icons.calendar_today,
