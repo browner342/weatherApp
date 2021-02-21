@@ -3,16 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../services/dataKeeper.dart';
 
 class DailyCard extends StatelessWidget {
   DailyCard({@required this.temperatureMax, @required this.temperatureMin, @required this.backgroundColor, @required this.icon, @required this.date});
 
-  int temperatureMax;
-  int temperatureMin;
-  Color backgroundColor;
-  String icon;
-  DateTime date;
+  final int temperatureMax;
+  final int temperatureMin;
+  final Color backgroundColor;
+  final String icon;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ import '../services/weather.dart';
 class WeatherWeeklyScreen extends StatefulWidget {
   WeatherWeeklyScreen({this.dataKeeper});
 
-  DataKeeper dataKeeper = DataKeeper();
+  final DataKeeper dataKeeper;
 
   @override
   _WeatherWeeklyScreenState createState() => _WeatherWeeklyScreenState();
@@ -22,7 +22,7 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
   List<Widget> dailyCards() {
     List<Widget> cards = [];
 
-    for(var i = 0; i < kCardAmount; i++){
+    for(var i = 0; i < kCardWeeklyAmount; i++){
       var item = Expanded(
         child: DailyCard(
           temperatureMax: dataKeeper.tempMaxDaily[i],

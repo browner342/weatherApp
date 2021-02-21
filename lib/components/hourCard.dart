@@ -2,15 +2,13 @@ import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../services/dataKeeper.dart';
-
 class HourCard extends StatelessWidget {
   HourCard({@required this.temperature, @required this.backgrounColor, @required this.icon, @required this.hour});
 
-  int temperature;
-  Color backgrounColor;
-  String icon;
-  int hour;
+  final int temperature;
+  final Color backgrounColor;
+  final String icon;
+  final int hour;
 
 
   @override

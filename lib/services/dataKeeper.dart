@@ -12,24 +12,24 @@ class DataKeeper {
   double lon ;
   double lat;
 
-  List<int> tempHourly = new List(kCardAmount);
-  List<int> condHourly = new List(kCardAmount);
-  List<String> iconHourly = new List(kCardAmount);
-  List<Color> colorHourly = new List(kCardAmount);
-  List<int> hourHourly = new List(kCardAmount);
+  List<int> tempHourly = new List(kCardHourlyAmount);
+  List<int> condHourly = new List(kCardHourlyAmount);
+  List<String> iconHourly = new List(kCardHourlyAmount);
+  List<Color> colorHourly = new List(kCardHourlyAmount);
+  List<int> hourHourly = new List(kCardHourlyAmount);
 
-  List<int> tempMaxDaily = new List(kCardAmount);
-  List<int> tempMinDaily = new List(kCardAmount);
-  List<int> condDaily = new List(kCardAmount);
-  List<String> iconDaily = new List(kCardAmount);
-  List<Color> colorDaily = new List(kCardAmount);
-  List<DateTime> dateDaily = new List(kCardAmount);
+  List<int> tempMaxDaily = new List(kCardWeeklyAmount);
+  List<int> tempMinDaily = new List(kCardWeeklyAmount);
+  List<int> condDaily = new List(kCardWeeklyAmount);
+  List<String> iconDaily = new List(kCardWeeklyAmount);
+  List<Color> colorDaily = new List(kCardWeeklyAmount);
+  List<DateTime> dateDaily = new List(kCardWeeklyAmount);
 
   Future<dynamic> getWeeklyData() async {
     WeatherModel weatherModel = WeatherModel();
     var weatherData = await weatherModel.getWeeklyWeather(this.lat, this.lon);
 
-      for(var i = 0; i < kCardAmount; i++){
+      for(var i = 0; i < kCardWeeklyAmount; i++){
         if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
           double temp = weatherData['daily'][i]['temp']['max'];
           this.tempMaxDaily[i] = temp.toInt();
@@ -56,7 +56,7 @@ class DataKeeper {
     WeatherModel weatherModel = WeatherModel();
     var weatherData = await weatherModel.getHourlyWeather(this.lat, this.lon);
 
-    for(var i = 0; i < kCardAmount; i++){
+    for(var i = 0; i < kCardHourlyAmount; i++){
         if(weatherData['hourly'][i]['temp'].runtimeType == double){
           double temp = weatherData['hourly'][i]['temp'];
           this.tempHourly[i] = temp.toInt();

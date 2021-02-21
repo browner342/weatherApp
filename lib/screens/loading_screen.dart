@@ -1,5 +1,4 @@
 import 'package:clima/screens/weatherNow_screen.dart';
-import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'weatherNow_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

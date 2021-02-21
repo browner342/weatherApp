@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-const kCardAmount = 7;
+const kCardWeeklyAmount = 7;
+const kCardHourlyAmount = 48;
+const String kApiKey = '6cdc9fa0075e4f00d9a0fb9bd5b673b9';
+
 const kTempTextStyle = TextStyle(
   fontFamily: 'Hind Siliguri',
   fontSize: 88.0,
@@ -29,8 +32,6 @@ const kButtonTextStyle = TextStyle(
 const kConditionTextStyle = TextStyle(
   fontSize: 100.0,
 );
-
-const String kApiKey = '6cdc9fa0075e4f00d9a0fb9bd5b673b9';
 
 const kTextFieldDecoration = InputDecoration(
   filled: true,

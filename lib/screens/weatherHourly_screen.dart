@@ -9,7 +9,7 @@ import '../services/weather.dart';
 class WeatherHourlyScreen extends StatefulWidget {
   WeatherHourlyScreen({this.dataKeeper});
 
-  DataKeeper dataKeeper = DataKeeper();
+  final DataKeeper dataKeeper;
 
   @override
   _WeatherHourlyScreenState createState() => _WeatherHourlyScreenState();
@@ -18,25 +18,6 @@ class WeatherHourlyScreen extends StatefulWidget {
 class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
   WeatherModel weatherModel = WeatherModel();
   DataKeeper dataKeeper = DataKeeper();
-
-  List<Widget> hourlyCards(){
-    List<Widget> cards = [];
-
-    for(var i = 0; i < kCardAmount; i++){
-      var item = Expanded(
-        child: HourCard(
-          temperature: dataKeeper.tempHourly[i],
-          backgrounColor: dataKeeper.colorHourly[i],
-          icon: dataKeeper.iconHourly[i],
-          hour: dataKeeper.hourHourly[i],
-        ),
-      );
-      cards.add(item);
-    }
-
-    return cards;
-  }
-
 
   @override
   void initState() {
@@ -79,8 +60,26 @@ class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
               ],
             ),
             Expanded(
-              child: Column(
-                children: hourlyCards(),
+              // child: Column(
+              //   children: hourlyCards(),
+              // ),
+              child: CustomScrollView(
+                slivers: <Widget> [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((BuildContext context, int i){
+                      return Container(
+                        height: 80,
+                        child: HourCard(
+                          temperature: dataKeeper.tempHourly[i],
+                          backgrounColor: dataKeeper.colorHourly[i],
+                          icon: dataKeeper.iconHourly[i],
+                          hour: dataKeeper.hourHourly[i],
+                        ),
+                      );
+                    },
+                    childCount: kCardHourlyAmount,
+                  ),)
+                ],
               ),
             ),
           ]

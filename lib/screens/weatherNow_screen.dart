@@ -1,4 +1,4 @@
-import 'package:clima/screens/weatherWeekly.dart';
+import 'package:clima/screens/weatherWeekly_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
