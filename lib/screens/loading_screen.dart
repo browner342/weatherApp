@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'weatherNow_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../services/weather.dart';
-
+import '../services/dataKeeper.dart';
 
 
 
@@ -13,15 +13,24 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  double latitude;
-  double longitude;
+  DataKeeper dataKeeper = DataKeeper();
+  WeatherModel weatherModel = WeatherModel();
 
 
   void getLocationData () async {
+    //Getting location with current weather
     var weatherDataCurrent = await WeatherModel().getLocationWeather();
+    dataKeeper.getWeatherDataNow(weatherDataCurrent);
 
+    //Getting weather for the future
+    if(dataKeeper.isConnected){
+      weatherDataCurrent = await WeatherModel().getHourlyWeather(dataKeeper.lat, dataKeeper.lon);
+      dataKeeper.getWeatherData(weatherDataCurrent);
+    }
+
+    //Go to the next page
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LocationScreen(locationData: weatherDataCurrent,);
+      return LocationScreen(dataKeeper: dataKeeper,);
     }));
   }
 

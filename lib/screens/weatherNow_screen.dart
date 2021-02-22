@@ -9,9 +9,9 @@ import '../services/weather.dart';
 import '../services/dataKeeper.dart';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({this.locationData,});
+  LocationScreen({this.dataKeeper,});
 
-  final locationData;
+  final DataKeeper dataKeeper;
 
 
   @override
@@ -20,51 +20,13 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   var weatherData;
-  bool isConntected;
 
   DataKeeper dataKeeper = DataKeeper();
   WeatherModel weatherModel = WeatherModel();
 
-  void updateUI(dynamic weatherData,){
-
-    if(weatherData == null){
-      isConntected = false;
-
-      dataKeeper.temperature = 0;
-      dataKeeper.weatherIcon = '';
-      dataKeeper.cityName = 'No Internet Connection';
-      dataKeeper.condition = 100;
-      dataKeeper.weatherBackGroundColor = Colors.black;
-      dataKeeper.weatherDescp ='';
-      dataKeeper.lon = 0;
-      dataKeeper.lat = 0;
-      return;
-    }
-    isConntected = true;
-
-    if ( weatherData['main']['temp'].runtimeType == double){
-      double temp = weatherData['main']['temp'];
-      dataKeeper.temperature = temp.toInt();
-    }else{
-      dataKeeper.temperature = weatherData['main']['temp'];
-    }
-
-    dataKeeper.condition = weatherData['weather'][0]['id'];
-    dataKeeper.cityName = weatherData['name'];
-    dataKeeper.lon = weatherData['coord']['lon'];
-    dataKeeper.lat = weatherData['coord']['lat'];
-
-    weatherModel.getWeatherValues(dataKeeper.condition);
-    dataKeeper.weatherIcon = weatherModel.icon;
-    dataKeeper.weatherBackGroundColor = weatherModel.color;
-    dataKeeper.weatherDescp = weatherModel.descp;
-
-
-  }
-
   @override
   void initState() {
-    updateUI(widget.locationData,);
+    dataKeeper = widget.dataKeeper;
     super.initState();
   }
 
@@ -116,9 +78,14 @@ class _LocationScreenState extends State<LocationScreen> {
                   FlatButton( // My location now
                     onPressed: () async {
                       weatherData = await weatherModel.getLocationWeather();
-                      setState(() {
-                        updateUI(weatherData,);
-                      });
+                      dataKeeper.getWeatherDataNow(weatherData);
+
+                      weatherData = await WeatherModel().getHourlyWeather(dataKeeper.lat, dataKeeper.lon);
+                      dataKeeper.getWeatherData(weatherData);
+
+                      if(dataKeeper.isConnected){
+                        setState(() {});
+                      }
                     },
                     child: Icon(
                       Icons.near_me,
@@ -133,11 +100,13 @@ class _LocationScreenState extends State<LocationScreen> {
 
                       if(typedName != null){
                         weatherData = await weatherModel.getCityWeather(typedName);
+                        dataKeeper.getWeatherDataNow(weatherData);
 
-                        if(weatherData != null){
-                          setState(() {
-                            updateUI(weatherData,);
-                          });
+                        weatherData = await WeatherModel().getHourlyWeather(dataKeeper.lat, dataKeeper.lon);
+                        dataKeeper.getWeatherData(weatherData);
+
+                        if(dataKeeper.isConnected){
+                          setState(() {});
                         }
                       }
                     },
@@ -148,7 +117,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather hourly
                     onPressed: () async {
-                      if(isConntected){
+                      if(dataKeeper.isConnected){
                         await Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return WeatherHourlyScreen(dataKeeper: dataKeeper);
                         }));
@@ -164,7 +133,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   FlatButton( // weather for week
                     onPressed: () async {
-                      if(isConntected) {
+                      if(dataKeeper.isConnected) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return WeatherWeeklyScreen(dataKeeper: dataKeeper);
                         }));

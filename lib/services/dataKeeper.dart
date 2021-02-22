@@ -11,6 +11,7 @@ class DataKeeper {
   String weatherDescp;
   double lon ;
   double lat;
+  bool isConnected;
 
   List<int> tempHourly = new List(kCardHourlyAmount);
   List<int> condHourly = new List(kCardHourlyAmount);
@@ -25,53 +26,127 @@ class DataKeeper {
   List<Color> colorDaily = new List(kCardWeeklyAmount);
   List<DateTime> dateDaily = new List(kCardWeeklyAmount);
 
+
+
+  void getWeatherDataNow(dynamic weatherData){
+    if(weatherData == null){
+      isConnected = false;
+      cityName = '';
+      lon = 0;
+      lat = 0;
+      condition = 0;
+      weatherIcon = '';
+      weatherBackGroundColor = Colors.black;
+      temperature = 0;
+      weatherDescp = 'No internet connection or location switched off';
+      return;
+    }
+    isConnected = true;
+    WeatherModel weatherModel = WeatherModel();
+    double temp = weatherData['main']['temp'];
+    temperature = temp.toInt();
+
+    cityName = weatherData['name'];
+    lon = weatherData['coord']['lon'];
+    lat = weatherData['coord']['lat'];
+    condition = weatherData['weather'][0]['id'];
+    weatherModel.getWeatherValues(condition);
+    weatherIcon = weatherModel.icon;
+    weatherBackGroundColor = weatherModel.color;
+    weatherDescp = weatherModel.descp;
+  }
+  void getWeatherData(dynamic weatherData) {
+    WeatherModel weatherModel = WeatherModel();
+
+    for(var i = 0; i < kCardWeeklyAmount; i++){
+      if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
+        double temp = weatherData['daily'][i]['temp']['max'];
+        tempMaxDaily[i] = temp.toInt();
+
+        temp = weatherData['daily'][i]['temp']['min'];
+        tempMinDaily[i] = temp.toInt();
+      } else {
+        tempMaxDaily[i] = weatherData['daily'][i]['temp']['max'];
+        tempMinDaily[i] = weatherData['daily'][i]['temp']['min'];
+      }
+
+      condDaily[i] = weatherData['daily'][i]['weather'][0]['id'];
+
+      weatherModel.getWeatherValues(condDaily[i]);
+      colorDaily[i] = weatherModel.color;
+      iconDaily[i] = weatherModel.icon;
+
+      Duration duration = Duration(days: i);
+      dateDaily[i] = DateTime.now().add(duration);
+    }
+
+    for(var i = 0; i < kCardHourlyAmount; i++){
+      if(weatherData['hourly'][i]['temp'].runtimeType == double){
+        double temp = weatherData['hourly'][i]['temp'];
+        tempHourly[i] = temp.toInt();
+      } else {
+        tempHourly[i] = weatherData['hourly'][i]['temp'];
+      }
+
+      condHourly[i] = weatherData['hourly'][i]['weather'][0]['id'];
+
+      weatherModel.getWeatherValues(condHourly[i]);
+      colorHourly[i] = weatherModel.color;
+      iconHourly[i] = weatherModel.icon;
+
+      Duration duration = new Duration(hours: i);
+      dateHourly[i] = DateTime.now().add(duration);
+    }
+
+  }
+
   Future<dynamic> getWeeklyData() async {
     WeatherModel weatherModel = WeatherModel();
-    var weatherData = await weatherModel.getWeeklyWeather(this.lat, this.lon);
+    var weatherData = await weatherModel.getWeeklyWeather(lat, lon);
 
       for(var i = 0; i < kCardWeeklyAmount; i++){
         if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
           double temp = weatherData['daily'][i]['temp']['max'];
-          this.tempMaxDaily[i] = temp.toInt();
+          tempMaxDaily[i] = temp.toInt();
 
           temp = weatherData['daily'][i]['temp']['min'];
-          this.tempMinDaily[i] = temp.toInt();
+          tempMinDaily[i] = temp.toInt();
         } else {
-          this.tempMaxDaily[i] = weatherData['daily'][i]['temp']['max'];
-          this.tempMinDaily[i] = weatherData['daily'][i]['temp']['min'];
+          tempMaxDaily[i] = weatherData['daily'][i]['temp']['max'];
+          tempMinDaily[i] = weatherData['daily'][i]['temp']['min'];
         }
 
-        this.condDaily[i] = weatherData['daily'][i]['weather'][0]['id'];
+        condDaily[i] = weatherData['daily'][i]['weather'][0]['id'];
 
-        weatherModel.getWeatherValues(this.condDaily[i]);
-        this.colorDaily[i] = weatherModel.color;
-        this.iconDaily[i] = weatherModel.icon;
+        weatherModel.getWeatherValues(condDaily[i]);
+        colorDaily[i] = weatherModel.color;
+        iconDaily[i] = weatherModel.icon;
 
         Duration duration = Duration(days: i);
-        this.dateDaily[i] = DateTime.now().add(duration);
+        dateDaily[i] = DateTime.now().add(duration);
       }
       return weatherData;
     }
   Future<dynamic> getHourlyData() async {
     WeatherModel weatherModel = WeatherModel();
-    var weatherData = await weatherModel.getHourlyWeather(this.lat, this.lon);
+    var weatherData = await weatherModel.getHourlyWeather(lat, lon);
 
     for(var i = 0; i < kCardHourlyAmount; i++){
         if(weatherData['hourly'][i]['temp'].runtimeType == double){
           double temp = weatherData['hourly'][i]['temp'];
-          this.tempHourly[i] = temp.toInt();
+          tempHourly[i] = temp.toInt();
         } else {
-          this.tempHourly[i] = weatherData['hourly'][i]['temp'];
+          tempHourly[i] = weatherData['hourly'][i]['temp'];
         }
 
-        this.condHourly[i] = weatherData['hourly'][i]['weather'][0]['id'];
+        condHourly[i] = weatherData['hourly'][i]['weather'][0]['id'];
 
-        weatherModel.getWeatherValues(this.condHourly[i]);
-        this.colorHourly[i] = weatherModel.color;
-        this.iconHourly[i] = weatherModel.icon;
+        weatherModel.getWeatherValues(condHourly[i]);
+        colorHourly[i] = weatherModel.color;
+        iconHourly[i] = weatherModel.icon;
 
         Duration duration = new Duration(hours: i);
-        this.dateHourly[i] = DateTime.now().add(duration);
+        dateHourly[i] = DateTime.now().add(duration);
       }
     return weatherData;
     }
