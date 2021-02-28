@@ -23,6 +23,19 @@ class _LocationScreenState extends State<LocationScreen> {
   DataKeeper dataKeeper = DataKeeper();
   bool showSpinner = false;
 
+  Future <dynamic> noConnectionDialog(){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Connection problem'),
+            content: Text('Turn the internet on or switch location on.'),
+          );
+        }
+    );
+  }
+
   @override
   void initState() {
     dataKeeper = widget.dataKeeper;
@@ -105,10 +118,6 @@ class _LocationScreenState extends State<LocationScreen> {
                         });
                         if(typedName != null){
                           await dataKeeper.getWeather(PlaceType.typedCity, typedName);
-
-                          // if(dataKeeper.isConnected){
-                          //   setState(() {});
-                          // }
                         }
                         setState(() {
                           showSpinner = false;
@@ -126,8 +135,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             return WeatherHourlyScreen(dataKeeper: dataKeeper);
                           }));
                         } else {
-                          //TODO:alert no internet connection
-                          print('no internet connection');
+                          noConnectionDialog();
                         }
                       },
                       child: Icon(
@@ -142,8 +150,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             return WeatherWeeklyScreen(dataKeeper: dataKeeper);
                           }));
                         }else {
-                          //TODO:alert no internet connection
-                          print('no internet connection');
+                          noConnectionDialog();
                         }
 
                       },
