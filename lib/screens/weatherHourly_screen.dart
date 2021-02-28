@@ -20,21 +20,8 @@ class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
   DataKeeper dataKeeper = DataKeeper();
 
   @override
-  void initState() {
-    updateUI();
-    super.initState();
-  }
-
-  void updateUI() async {
-    dataKeeper = widget.dataKeeper;
-    await dataKeeper.getHourlyData();
-    setState(() {});
-  }
-
-
-
-  @override
   Widget build(BuildContext context) {
+    dataKeeper = widget.dataKeeper;
     return Scaffold(
       body: SafeArea(
         child: Column(

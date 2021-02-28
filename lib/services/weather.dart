@@ -12,10 +12,15 @@ class WeatherModel {
 
 
   Future <dynamic> getCityWeather(String cityName) async{
-    NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$kApiKey&units=metric');
-    var weatherData = await networkHelper.getData();
+    try {
+      NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$kApiKey&units=metric');
+      var weatherData = await networkHelper.getData();
 
-    return weatherData;
+      return weatherData;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future <dynamic> getLocationWeather() async{
@@ -31,25 +36,23 @@ class WeatherModel {
       return weatherData;
 
     } catch (e){
+      print(e);
       return null;
     }
 
   }
 
-  Future <dynamic> getHourlyWeather(double lat, double lon) async {
+  Future <dynamic> getOverAllWeather(double lat, double lon) async {
 
-    NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$kApiKey&units=metric');
-    var weatherData = await networkHelper.getData();
+    try{
+      NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$kApiKey&units=metric');
+      var weatherData = await networkHelper.getData();
 
-    return weatherData;
-  }
-
-  Future <dynamic> getWeeklyWeather(double lat, double lon) async {
-
-    NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$kApiKey&units=metric');
-    var weatherData = await networkHelper.getData();
-
-    return weatherData;
+      return weatherData;
+    } catch (e){
+      print(e);
+      return null;
+    }
   }
 
   void getWeatherValues(int condition) { //ThunderStorm

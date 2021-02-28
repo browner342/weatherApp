@@ -1,6 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/*
+Class NetworkHelper get directly to the internet,
+collecting data, then return json decoded info.
+ */
 class NetworkHelper {
   NetworkHelper(this.url);
 

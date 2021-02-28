@@ -38,21 +38,9 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
     return cards;
   }
 
-
-  void updateUI() async {
-    dataKeeper = widget.dataKeeper;
-    await dataKeeper.getWeeklyData();
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    updateUI();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    dataKeeper = widget.dataKeeper;
     return Scaffold(
         body: SafeArea(
             child: Column(

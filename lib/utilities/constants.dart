@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 const kCardWeeklyAmount = 7;
 const kCardHourlyAmount = 48;
-const String kApiKey = '6cdc9fa0075e4f00d9a0fb9bd5b673b9';
+const kApiKey = '6cdc9fa0075e4f00d9a0fb9bd5b673b9';
+const kCityNameTag = 'CityNameTag';
+const kAlertNoConnection = 'No internet connection or location switched off';
 
 const kTempTextStyle = TextStyle(
   fontFamily: 'Hind Siliguri',
@@ -50,4 +52,7 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 
-const kAlertNoConnection = 'No internet connection or location switched off';
+enum PlaceType {
+  myLocation,
+  typedCity
+}
