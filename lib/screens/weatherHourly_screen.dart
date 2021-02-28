@@ -4,24 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import '../services/dataKeeper.dart';
-import '../services/weather.dart';
 
-class WeatherHourlyScreen extends StatefulWidget {
+
+class WeatherHourlyScreen extends StatelessWidget {
   WeatherHourlyScreen({this.dataKeeper});
 
   final DataKeeper dataKeeper;
 
-  @override
-  _WeatherHourlyScreenState createState() => _WeatherHourlyScreenState();
-}
-
-class _WeatherHourlyScreenState extends State<WeatherHourlyScreen>{
-  WeatherModel weatherModel = WeatherModel();
-  DataKeeper dataKeeper = DataKeeper();
-
-  @override
   Widget build(BuildContext context) {
-    dataKeeper = widget.dataKeeper;
     return Scaffold(
       body: SafeArea(
         child: Column(

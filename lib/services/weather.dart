@@ -30,7 +30,6 @@ class WeatherModel {
 
     try{
       NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric');
-      //NetworkHelper networkHelper = NetworkHelper('http://api.openweathermap.org/data/2.5/onecall?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric');
       var weatherData = await networkHelper.getData();
 
       return weatherData;

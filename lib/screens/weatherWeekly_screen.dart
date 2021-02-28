@@ -4,20 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import '../services/dataKeeper.dart';
-import '../services/weather.dart';
 
-class WeatherWeeklyScreen extends StatefulWidget {
+class WeatherWeeklyScreen extends StatelessWidget {
   WeatherWeeklyScreen({this.dataKeeper});
 
   final DataKeeper dataKeeper;
-
-  @override
-  _WeatherWeeklyScreenState createState() => _WeatherWeeklyScreenState();
-}
-
-class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
-  WeatherModel weatherModel = WeatherModel();
-  DataKeeper dataKeeper = DataKeeper();
 
   List<Widget> dailyCards() {
     List<Widget> cards = [];
@@ -40,7 +31,6 @@ class _WeatherWeeklyScreenState extends State<WeatherWeeklyScreen>{
 
   @override
   Widget build(BuildContext context) {
-    dataKeeper = widget.dataKeeper;
     return Scaffold(
         body: SafeArea(
             child: Column(

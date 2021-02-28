@@ -30,16 +30,20 @@ class DataKeeper {
 
   Future <void> getWeather(PlaceType placeType, String typedCityName) async {
     var weatherData;
-    if(placeType == PlaceType.myLocation){
-      weatherData = await WeatherModel().getLocationWeather();
-      this._decodeWeatherNow(weatherData);
-    }else if(placeType == PlaceType.typedCity){
-      weatherData = await WeatherModel().getCityWeather(typedCityName);
-      this._decodeWeatherNow(weatherData);
-    }
+    try {
+      if(placeType == PlaceType.myLocation){
+        weatherData = await WeatherModel().getLocationWeather();
+        this._decodeWeatherNow(weatherData);
+      }else if(placeType == PlaceType.typedCity){
+        weatherData = await WeatherModel().getCityWeather(typedCityName);
+        this._decodeWeatherNow(weatherData);
+      }
 
-    weatherData = await WeatherModel().getOverAllWeather(this.lat, this.lon);
-    this._decodeWeatherOverall(weatherData);
+      weatherData = await WeatherModel().getOverAllWeather(this.lat, this.lon);
+      this._decodeWeatherOverall(weatherData);
+    } catch(e){
+      print(e);
+    }
   }
 
   void _decodeWeatherNow(dynamic weatherData){
@@ -71,6 +75,10 @@ class DataKeeper {
   }
   void _decodeWeatherOverall(dynamic weatherData) {
     WeatherModel weatherModel = WeatherModel();
+
+    if(weatherData == null){
+      return;
+    }
 
     for(var i = 0; i < kCardWeeklyAmount; i++){
       if(weatherData['daily'][i]['temp']['max'].runtimeType == double){
