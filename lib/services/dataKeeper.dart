@@ -2,7 +2,7 @@ import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import '../services/weather.dart';
 
-class DataKeeper {
+class DataKeeper extends ChangeNotifier{
 
   int temperature;
   int condition;
@@ -44,6 +44,8 @@ class DataKeeper {
     } catch(e){
       print(e);
     }
+
+    notifyListeners();
   }
 
   void _decodeWeatherNow(dynamic weatherData){
@@ -72,7 +74,9 @@ class DataKeeper {
     weatherIcon = weatherModel.icon;
     weatherBackGroundColor = weatherModel.color;
     weatherDescp = weatherModel.descp;
+
   }
+
   void _decodeWeatherOverall(dynamic weatherData) {
     WeatherModel weatherModel = WeatherModel();
 

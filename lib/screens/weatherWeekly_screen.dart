@@ -3,14 +3,12 @@ import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
 import '../services/dataKeeper.dart';
 
 class WeatherWeeklyScreen extends StatelessWidget {
-  WeatherWeeklyScreen({this.dataKeeper});
 
-  final DataKeeper dataKeeper;
-
-  List<Widget> dailyCards() {
+  List<Widget> dailyCards(DataKeeper dataKeeper) {
     List<Widget> cards = [];
 
     for(var i = 0; i < kCardWeeklyAmount; i++){
@@ -31,38 +29,42 @@ class WeatherWeeklyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: Column(
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            size: 50.0,
+    return Consumer<DataKeeper>(
+      builder: (context, dataKeeper, child){
+        return Scaffold(
+            body: SafeArea(
+                child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 50.0,
+                              ),
+                            ),
                           ),
+                          Text(
+                            '${dataKeeper.cityName}',
+                            style: kCityNameTextStyle,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: dailyCards(dataKeeper),
                         ),
                       ),
-                      Text(
-                        '${dataKeeper.cityName}',
-                        style: kCityNameTextStyle,
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: dailyCards(),
-                    ),
-                  ),
-                ]
+                    ]
+                )
             )
-        )
+        );
+      },
     );
   }
 }
